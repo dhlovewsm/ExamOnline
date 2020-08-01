@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<!-- 映射文件 -->
+<mapper namespace="com.examonline.dao.mapper.ExamMapper">
+    <resultMap id="BaseResultMap" type="com.examonline.entity.Exam">
+        <id column="exam_id" property="examId" jdbcType="VARCHAR"/>
+        <result column="exam_name" property="examName" jdbcType="VARCHAR"/>
+        <result column="start_date" property="examStartDate" jdbcType="TIMESTAMP"/>
+        <result column="end_date" property="examEndDate" jdbcType="TIMESTAMP"/>
+        <result column="user_id" property="userId" jdbcType="VARCHAR"/>
+        <result column="exam_time" property="examTimeLength" jdbcType="INTEGER"/>
+        <result column="paper_id" property="paperId" jdbcType="VARCHAR"/>
+        <result column="company_id" property="companyId" jdbcType="INTEGER"/>
+        <result column="create_date" property="examCreateDate" jdbcType="TIMESTAMP"/>
+        <result column="update_date" property="examUpdateDate" jdbcType="TIMESTAMP"/>
+        <result column="creator" property="examCreator" jdbcType="VARCHAR"/>
+        <result column="version" property="examVersion" jdbcType="VARCHAR"/>
+        <result column="status" property="examStatus" jdbcType="INTEGER"/>
+        <result column="update_person" property="examUpdatePerson" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+          exam_id,exam_name,start_date,end_date,user_id,exam_time,paper_id,
+          company_id,status,version,create_date,update_date,creator,
+          update_person
+    </sql>
+    <select id="getAll" resultMap="BaseResultMap">
+        SELECT
+        *
+        FROM t_exam
+    </select>
+
+    <select id="queryExamsByApplicantAccount" parameterType="String" resultMap="BaseResultMap">
+        SELECT
+        *
+        FROM t_exam a,t_applicant_exam b,t_applicant c
+        WHERE
+        a.exam_id = b.exam_id AND b.applicant_id = c.applicant_id
+        AND c.applicant_account= #{applicantAccount,jdbcType=VARCHAR}
+    </select>
+
+    <select id="queryExamsByApplicantId" parameterType="String" resultMap="BaseResultMap">
+        SELECT
+        *
+        FROM t_exam a,t_applicant_exam b
+        WHERE
+        a.exam_id = b.exam_id
+        AND b.applicant_id = #{applicantId,jdbcType=VARCHAR}
+    </select>
+
+</mapper>

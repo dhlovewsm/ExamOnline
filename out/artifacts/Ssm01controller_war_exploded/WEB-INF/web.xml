@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://java.sun.com/xml/ns/javaee
+          http://www.springmodules.org/schema/cache/springmodules-cache.xsd
+          http://www.springmodules.org/schema/cache/springmodules-ehcache.xsd"
+         id="WebApp_ID" version="2.5">
+  <display-name>Archetype Created Web Application</display-name>
+
+  <!--welcome pages-->
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+  </welcome-file-list>
+   
+    <!--applicationContext.xml是全局的，应用于多个serverlet，配合listener一起使用-->
+    <!-- 如果是监听多个文件，可用‘，’隔开 -->
+   
+   
+  <context-param> 
+    <description>配置Spring配置文件路径</description>   
+    <param-name>contextConfigLocation</param-name>   
+    <param-value>classpath*:spring/applicationContext-*.xml</param-value> 
+  </context-param>
+  <!--log4j配置文件加载-->
+   
+  <context-param>
+    <param-name>logbackConfigLocation</param-name>   
+    <param-value>classpath:logBack.xml</param-value>
+  </context-param>
+  <context-param>
+    <param-name>log4jRefreshInterval</param-name>
+    <param-value>1800000</param-value>
+  </context-param>
+    <!--启动一个watchdog线程每1800秒扫描一下log4j配置文件的变化-->
+
+
+    <!-- 定义SPRING监听器，加载spring --> 
+  <listener>
+    <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class> 
+  </listener>
+     
+  <listener>   
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class> 
+  </listener>
+   
+
+  <!-- 使用Rest风格的URI，将页面普通的post请求转为指定的delete或者put请求 -->
+  <filter>
+    <filter-name>HiddenHttpMethodFilter</filter-name>
+    <filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>HiddenHttpMethodFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  <filter>
+    <filter-name>HttpPutFormContentFilter</filter-name>
+    <filter-class>org.springframework.web.filter.HttpPutFormContentFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>HttpPutFormContentFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+   
+    <!-- 配置Spring字符编码过滤器 -->
+   
+  <filter>   
+    <filter-name>encodingFilter</filter-name>   
+    <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>   
+    <init-param>     
+      <param-name>encoding</param-name>
+      <param-value>UTF-8</param-value>   
+    </init-param>   
+    <init-param>     
+      <param-name>forceEncoding</param-name>     
+      <param-value>true</param-value>   
+    </init-param> 
+  </filter>
+  <filter-mapping>
+    <filter-name>encodingFilter</filter-name>   
+    <url-pattern>/*</url-pattern> 
+  </filter-mapping>
+
+
+
+
+    <!-- Spring MVC 核心控制器 DispatcherServlet 配置开始 -->
+    <!--配置springmvc DispatcherServlet-->
+   
+  <servlet>
+       
+    <servlet-name>springMVC</servlet-name>
+       
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+       
+    <init-param>
+            <!--Sources标注的文件夹下需要新建一个spring文件夹-->
+           
+      <param-name>contextConfigLocation</param-name>
+            <!-- 如果是监听多个文件，可用‘，’隔开 -->
+           
+      <param-value>classpath:spring/spring-mvc.xml</param-value>
+         
+    </init-param>
+       
+    <load-on-startup>1</load-on-startup>
+    <async-supported>true</async-supported>
+     
+  </servlet>
+   
+    <!-- 拦截设置 -->
+   
+  <servlet-mapping>
+       
+    <servlet-name>springMVC</servlet-name>
+        <!-- 此处可以可以配置成*.do，对应struts的后缀习惯 -->
+     
+    <url-pattern>/</url-pattern>
+     
+  </servlet-mapping>
+    <!-- Spring MVC 核心配置结束 -->
+   
+    <!-- 激活Tomcat的defaultServlet来处理静态文件 -->
+   
+  <servlet-mapping>
+       
+    <servlet-name>default</servlet-name>
+       
+    <url-pattern>/static/*</url-pattern>
+     
+  </servlet-mapping>
+   
+    <!-- session 时间 -->
+   
+  <session-config>
+       
+    <session-timeout>30</session-timeout>
+     
+  </session-config>
+</web-app>

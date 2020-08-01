@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.examonline.dao.mapper.UserMapper">
+
+    <resultMap id="BaseResultMap" type="com.examonline.entity.User" >
+        <id column="user_id" property="userId" jdbcType="VARCHAR" />
+        <result column="user_account" property="userAccount" jdbcType="VARCHAR" />
+        <result column="password" property="password" jdbcType="VARCHAR" />
+        <result column="user_name" property="userName" jdbcType="BIGINT" />
+        <result column="user_phone" property="userPhone" jdbcType="VARCHAR"/>
+        <result column="user_email" property="userEmail" jdbcType="VARCHAR" />
+        <result column="user_number" property="userNumber" jdbcType="VARCHAR" />
+        <result column="user_identity" property="userIdentity" jdbcType="VARCHAR" />
+        <result column="company_id" property="companyId" jdbcType="INT" />
+        <result column="create_date" property="createDate" jdbcType="DATETIME" />
+        <result column="update_date" property="updateDate" jdbcType="DATETIME" />
+        <result column="creator" property="creator" jdbcType="VARCHAR" />
+        <result column="version" property="version" jdbcType="VARCHAR" />
+        <result column="status" property="status" jdbcType="INT" />
+        <result column="update_person" property="updatePerson" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        userId, userAccount, password, userName, userPhone,userEmail,userNumber,
+        userIdentity,comanyId,createDate,updateDate,creator,version,status,updatePerson
+    </sql>
+
+    <select id="queryRoles" parameterType="String" resultType="List">
+        select role_name from t_user a,t_user_role b,t_role c where a.user_id = b.user_id
+        and b.role_id = c.role_id and a.user_account=#{user_account}
+    </select>
+    <select id="getByUserAccount" parameterType="String" resultType="com.examonline.entity.User">
+        select
+    </select>
+
+    <select id="queryPermissions" parameterType="String" resultType="List">
+       select menu_name from t_user a,t_user_role b,t_role_menu c,t_menu d where a.user_id = b.user_id
+      and b.role_id = c.role_id and c.menu_id = d.menu_id and user_account = #{user_account}
+    </select>
+</mapper>

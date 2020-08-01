@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<!-- 映射文件 -->
+<mapper namespace="com.examonline.dao.mapper.UserMapper">
+    <resultMap id="BaseResultMap" type="com.examonline.entity.User">
+        <id column="user_id" property="userId" jdbcType="VARCHAR"/>
+        <result column="user_account" property="userAccount" jdbcType="VARCHAR"/>
+        <result column="password" property="userPassword" jdbcType="VARCHAR"/>
+        <result column="user_name" property="userName" jdbcType="VARCHAR"/>
+        <result column="user_phone" property="userPhone" jdbcType="VARCHAR"/>
+        <result column="user_email" property="userEmail" jdbcType="VARCHAR"/>
+        <result column="user_number" property="userNumber" jdbcType="VARCHAR"/>
+        <result column="user_identity" property="userIdentity" jdbcType="VARCHAR"/>
+        <result column="company_id" property="userCompanyId" jdbcType="INTEGER"/>
+        <result column="create_date" property="userCreateDate" jdbcType="TIMESTAMP"/>
+        <result column="update_date" property="userUpdateDate" jdbcType="TIMESTAMP"/>
+        <result column="creator" property="userCreator" jdbcType="VARCHAR"/>
+        <result column="version" property="userVersion" jdbcType="VARCHAR"/>
+        <result column="status" property="userStatus" jdbcType="INTEGER"/>
+        <result column="update_person" property="userUpdatePerson" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+          user_id,user_account,password,user_name,user_phone,user_email,user_number,
+user_identity,company_id,create_date,update_date,creator,version,status,update_person
+    </sql>
+    <select id="getAll" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM t_user
+    </select>
+    <select id="getOne" parameterType="String" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_user
+        WHERE
+        user_account= #{userAccount,jdbcType=VARCHAR}
+    </select>
+
+    <select id="queryRoles" parameterType="String" resultType="String">
+        SELECT
+        c.role_name
+        FROM t_user a,t_user_role b,t_role c
+        WHERE
+        a.user_id = b.user_id AND b.role_id=c.role_id
+        AND a.user_account = #{userAccount,jdbcType=VARCHAR}
+    </select>
+
+    <select id="queryPermissions" parameterType="String" resultMap="BaseResultMap">
+        SELECT
+        c.role_name
+        FROM t_user a,t_user_role b,t_role c
+        WHERE
+        a.user_id = b.user_id AND b.role_id=c.role_id
+        AND a.user_account = #{userAccount,jdbcType=VARCHAR}
+    </select>
+
+</mapper>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.examonline</groupId>
+    <artifactId>Ssm01</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>Ssm01-dao</module>
+        <module>Ssm01-entity</module>
+        <module>Ssm01-service</module>
+        <module>Ssm01-common</module>
+        <module>Ssm01-controller</module>
+    </modules>
+    <properties>
+        <Ssm01-dao.version>1.0-SNAPSHOT</Ssm01-dao.version>
+        <Ssm01-entity.version>1.0-SNAPSHOT</Ssm01-entity.version>
+        <Ssm01-service.version>1.0-SNAPSHOT</Ssm01-service.version>
+        <Ssm01-common.version>1.0-SNAPSHOT</Ssm01-common.version>
+        <Ssm01-controller.version>1.0-SNAPSHOT</Ssm01-controller.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+            <groupId>com.examonline</groupId>
+            <artifactId>Ssm01-dao</artifactId>
+            <version>${Ssm01-dao.version}</version>
+        </dependency>
+            <dependency>
+                <groupId>com.examonline</groupId>
+                <artifactId>Ssm01-entity</artifactId>
+                <version>${Ssm01-entity.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.examonline</groupId>
+                <artifactId>Ssm01-service</artifactId>
+                <version>${Ssm01-service.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.bosssoft.hhr.ssm</groupId>
+                <artifactId>Ssm01-controller</artifactId>
+                <version>${Ssm01-controller.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.examonline</groupId>
+                <artifactId>Ssm01-common</artifactId>
+                <version>${Ssm01-common.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+
+</project>

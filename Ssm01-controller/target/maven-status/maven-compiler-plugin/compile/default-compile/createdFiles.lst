@@ -1,0 +1,13 @@
+com\examonline\controller\BankController.class
+com\examonline\controller\ApplicantExamController.class
+com\examonline\controller\DepartmentController.class
+com\examonline\controller\ExamController.class
+com\examonline\controller\PaperAnswerController.class
+com\examonline\controller\PaperController.class
+com\examonline\controller\QuestionController.class
+com\examonline\controller\aop\AopAspect.class
+com\examonline\controller\aop\ArchivesLog.class
+com\examonline\controller\PaperTypeController.class
+com\examonline\controller\UserController.class
+com\examonline\controller\CompanyController.class
+com\examonline\controller\ApplicantController.class

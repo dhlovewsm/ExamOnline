@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+        <!DOCTYPE mapper
+                PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+                "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+        <!-- 映射文件 -->
+<mapper namespace="com.examonline.dao.mapper.PaperMapper">
+<resultMap id="BaseResultMap" type="com.examonline.entity.Paper">
+    <id column="paper_id" property="paperId" jdbcType="VARCHAR"/>
+    <result column="paper_name" property="paperName" jdbcType="VARCHAR"/>
+    <result column="type_id" property="paperTypeId" jdbcType="INTEGER"/>
+    <result column="company_id" property="companyId" jdbcType="INTEGER"/>
+    <result column="difficulty" property="paperDifficulty" jdbcType="INTEGER"/>
+    <result column="create_date" property="paperCreateDate" jdbcType="TIMESTAMP"/>
+    <result column="update_date" property="paperUpdateDate" jdbcType="TIMESTAMP"/>
+    <result column="creator" property="paperCreator" jdbcType="VARCHAR"/>
+    <result column="version" property="paperVersion" jdbcType="VARCHAR"/>
+    <result column="status" property="paperStatus" jdbcType="INTEGER"/>
+    <result column="total_score" property="paperTotalScore" jdbcType="INTEGER"/>
+    <result column="description" property="paperDescription" jdbcType="VARCHAR"/>
+    <result column="update_person" property="paperUpdatePerson" jdbcType="VARCHAR"/>
+</resultMap>
+<sql id="Base_Column_List">
+          paper_id,paper_name,type_id,company_id,difficulty,status,version,
+          create_date,update_date,creator,total_score,description,update_person
+    </sql>
+<select id="getAll" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM t_paper
+</select>
+
+<select id="queryPapersByType" parameterType="String" resultMap="BaseResultMap">
+        SELECT
+        a.paper_id,a.paper_name,a.type_id,a.company_id,a.difficulty,a.status,a.version,
+          a.create_date,a.update_date,a.creator,a.total_score,a.description,a.update_person
+        FROM t_paper a,t_paper_type b
+        WHERE
+        a.type_id = b.type_id AND
+        b.type_name = #{typeName,jdbcType=VARCHAR}
+    </select>
+
+
+</mapper>

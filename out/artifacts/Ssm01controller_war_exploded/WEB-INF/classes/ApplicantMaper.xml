@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<!-- 映射文件 -->
+<mapper namespace="com.examonline.dao.mapper.ApplicantMapper">
+    <resultMap id="BaseResultMap" type="com.examonline.entity.Applicant">
+        <id column="applicant_id" property="applicantId" jdbcType="VARCHAR"/>
+        <result column="applicant_account" property="applicantAccount" jdbcType="VARCHAR"/>
+        <result column="password" property="applicantPassword" jdbcType="VARCHAR"/>
+        <result column="applicant_name" property="applicantName" jdbcType="VARCHAR"/>
+        <result column="applicant_phone" property="applicantPhone" jdbcType="VARCHAR"/>
+        <result column="applicant_sex" property="applicantSex" jdbcType="VARCHAR"/>
+        <result column="applicant_email" property="applicantEmail" jdbcType="VARCHAR"/>
+        <result column="status" property="applicantStatus" jdbcType="INTEGER"/>
+        <result column="update_date" property="applicantUpdateDate" jdbcType="TIMESTAMP"/>
+        <result column="creator" property="applicantCreator" jdbcType="VARCHAR"/>
+        <result column="create_date" property="applicantCreateDate" jdbcType="TIMESTAMP"/>
+        <result column="version" property="applicantVersion" jdbcType="VARCHAR"/>
+        <result column="update_person" property="applicantUpdatePerson" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+          applicant_id,applicant_account,password,applicant_name,applicant_phone,applicant_sex,applicant_email,
+status,update_date,creator,create_date,version,update_person
+    </sql>
+    <select id="getAll" resultMap="BaseResultMap">
+        SELECT
+        *
+        FROM t_applicant
+    </select>
+
+    <select id="queryApplicantsByDepartmentId" parameterType="Integer" resultMap="BaseResultMap">
+        SELECT
+        a.applicant_id,a.pplicant_account,a.password,a.applicant_name,a.applicant_phone,
+        a.applicant_sex,a.applicant_email,a.status,a.update_date,a.creator,a.create_date,
+        a.version,a.update_person
+        FROM
+        t_applicant a,t_resume b
+        WHERE
+        a.applicant_id = b.applicant_id
+        AND b.department_id= #{departmentId,jdbcType=VARCHAR}
+    </select>
+
+
+</mapper>

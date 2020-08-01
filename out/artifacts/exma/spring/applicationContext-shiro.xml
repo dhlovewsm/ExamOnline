@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd"
+       default-lazy-init="true">
+
+    <!-- 配置安全管理器securityManager， 缓存技术: 缓存管理 realm:负责获取处理数据 -->
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <property name="realm" ref="UserRealm" />
+        <property name="cacheManager" ref="cacheManager" />
+
+    </bean>
+
+    <!-- 項目自定义的Realm,从数据库中获取用户的安全数据 -->
+    <bean id="UserRealm" class="com.examonline.shiro.UserRealm">
+        <!-- 配置缓存管理器-->
+        <property name="cacheManager" ref="cacheManager" />
+        <!-- 配置加密器 -->
+        <property name="credentialsMatcher">
+            <bean class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
+                <property name="hashAlgorithmName" value="MD5"></property> <!-- 加密算法的名称 -->
+                <property name="hashIterations" value="1024"></property> <!-- 配置加密的次数 -->
+            </bean>
+        </property>
+    </bean>
+
+    <!-- 用户授权信息Cache -->
+    <bean id="cacheManager" class="org.apache.shiro.cache.MemoryConstrainedCacheManager" />
+
+    <!-- 必须配置lifecycleBeanPostProcessor:管理shiro中常见的对象 -->
+    <!-- 保证实现了Shiro内部lifecycle函数的bean执行 -->
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
+
+    <!-- shiro的核心配置:  配置shiroFileter id名必须与web.xml中的filtername保持一致 -->
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <property name="securityManager" ref="securityManager" />
+        <property name="loginUrl" value="/logon.jsp" />
+        <property name="successUrl" value="/index.jsp" />
+        <property name="unauthorizedUrl" value="/unauthorized.jsp" />
+        <!-- shiro过滤器的具体配置 -->
+        <!-- anon-匿名访问，authc-需要认证 -->
+        <property name="filterChainDefinitions">
+            <value>
+                /logon.jsp = anon
+                /user/logon = anon
+                /index.jsp = authc
+                /admin/** = roles[admin]
+                /user/** = roles[user]
+                /logout=logout
+                /** = authc
+            </value>
+        </property>
+    </bean>
+
+</beans>
